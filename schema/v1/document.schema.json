@@ -1,0 +1,318 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://usdm-meta.dev/schema/v1/document.json",
+  "title": "USDM Document",
+  "description": "Canonical schema for USDM (Universal Specification Describing Manner) documents. USDMの8つの構成要素（キーワードラベル、要求、理由、説明、仕様、仕様ラベル、グループ、カテゴリ）を正規化したJSON形式で表現する。",
+  "$comment": "全ての変換（Excel, Markdown, HTML等）はこのCanonical形式を経由する。プロパティ名は英語、表示はlocaleマッピングで日本語化する設計方針。",
+  "type": "object",
+  "required": ["version", "title", "categories"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema URI for editor support and validation"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version (semver). Breaking changes bump major version."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "文書タイトル"
+    },
+    "metadata": {
+      "$ref": "#/definitions/Metadata"
+    },
+    "categories": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Category" },
+      "minItems": 1,
+      "description": "USDMのグループ（カテゴリ）。要求をドメインや機能領域で分類する。"
+    },
+    "requirementRelations": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/RequirementRelation" },
+      "description": "要求間の関連（USDMメタモデルの「要求間」AssociationClassに対応）。分割軸で修飾される。"
+    },
+    "specificationGroupRelations": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/SpecificationGroupRelation" },
+      "description": "仕様グループ間の関連（USDMメタモデルの「仕様グループ間」AssociationClassに対応）。分割軸で修飾される。"
+    }
+  },
+  "additionalProperties": false,
+
+  "definitions": {
+    "Metadata": {
+      "type": "object",
+      "description": "文書メタデータ。Git管理と併用する想定。",
+      "properties": {
+        "author": {
+          "type": "string",
+          "description": "著者名"
+        },
+        "created": {
+          "type": "string",
+          "description": "作成日時 (ISO 8601形式を推奨。例: 2026-03-14T00:00:00Z)"
+        },
+        "modified": {
+          "type": "string",
+          "description": "最終更新日時 (ISO 8601形式を推奨。例: 2026-03-14T00:00:00Z)"
+        },
+        "description": {
+          "type": "string",
+          "description": "文書の説明・概要"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Category": {
+      "type": "object",
+      "description": "USDMの「グループ」に対応。要求を機能領域やドメインで分類するコンテナ。",
+      "required": ["id", "name", "requirements"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$",
+          "description": "カテゴリID（例: C01）。文書全体で一意。",
+          "examples": ["C01", "C02"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "カテゴリ名（例: エディタ本体）"
+        },
+        "requirements": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Requirement" },
+          "description": "このカテゴリに属する要求の一覧"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Requirement": {
+      "type": "object",
+      "description": "USDMの「要求」。1階層（要求→仕様）または2階層（要求→下位要求→仕様）のいずれかのパターンを選択する。同一文書内で両パターンの混在が可能。",
+      "$comment": "USDMメタモデルでは要求（基底）が仕様グループを持ち、上位要求が追加で下位要求グループを持つ。両方の同時保持が可能。",
+      "required": ["id", "requirement", "reason"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$",
+          "description": "要求ID（例: R01）。文書全体で一意。",
+          "examples": ["R01", "R02", "R11"]
+        },
+        "requirement": {
+          "type": "string",
+          "minLength": 1,
+          "description": "USDMの「要求」テキスト。目的語と動詞で振る舞いを記述。"
+        },
+        "reason": {
+          "type": "string",
+          "description": "USDMの「理由」。この要求がなぜ必要かを記述。"
+        },
+        "explanation": {
+          "type": "string",
+          "default": "",
+          "description": "USDMの「説明」。要求の補足情報や前提条件を記述。"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "description": "USDMの「キーワードラベル」。要求の分類や検索に使用。"
+        },
+        "specificationGroups": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/SpecificationGroup" },
+          "description": "要求に紐づく仕様グループ（USDMメタモデルの要求→仕様グループ [0..*] 集約に対応）。requirementGroupsとの同時保持可。"
+        },
+        "requirementGroups": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/RequirementGroup" },
+          "description": "上位要求としての下位要求グループ（USDMメタモデルの上位要求→下位要求グループ [0..*] 集約に対応）。specificationGroupsとの同時保持可。"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "RequirementGroup": {
+      "type": "object",
+      "description": "USDMの「要求グループ」。下位要求を束ねるコンテナ。仕様グループと同様に＜＞で囲んだグループ名で分類する。",
+      "required": ["name", "subRequirements"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "pattern": "^＜.+＞$",
+          "description": "要求グループ名。全角山括弧＜＞で囲む（例: ＜オブジェクト操作＞）",
+          "examples": ["＜オブジェクト操作＞", "＜ファイル操作＞"]
+        },
+        "subRequirements": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/SubRequirement" },
+          "description": "このグループに属する下位要求の一覧"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "SubRequirement": {
+      "type": "object",
+      "description": "USDMの「下位要求」。2階層パターンにおいて、上位要求を具体化・分割した要求。",
+      "required": ["id", "requirement", "reason"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$",
+          "description": "下位要求ID（例: R01-01）。文書全体で一意。親要求IDをプレフィクスとする命名を推奨。",
+          "examples": ["R01-01", "R01-02"]
+        },
+        "requirement": {
+          "type": "string",
+          "minLength": 1,
+          "description": "下位要求テキスト"
+        },
+        "reason": {
+          "type": "string",
+          "description": "この下位要求の理由"
+        },
+        "explanation": {
+          "type": "string",
+          "default": "",
+          "description": "下位要求の補足説明"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "description": "キーワードラベル"
+        },
+        "specificationGroups": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/SpecificationGroup" },
+          "description": "この下位要求に紐づく仕様グループ"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "SpecificationGroup": {
+      "type": "object",
+      "description": "USDMの「仕様グループ」に対応するコンテナ。仕様をグルーピングし、所属関係を明確にする。従来のインラインマーカー方式ではなくコンテナ構造を採用。",
+      "required": ["name", "specifications"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "pattern": "^＜.+＞$",
+          "description": "仕様グループ名。全角山括弧＜＞で囲む（例: ＜画面レイアウト＞）",
+          "examples": ["＜画面レイアウト＞", "＜オブジェクト選択＞", "＜オブジェクト配置＞"]
+        },
+        "specifications": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Specification" },
+          "description": "このグループに属する仕様の一覧"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Specification": {
+      "type": "object",
+      "description": "USDMの「仕様」。要求または下位要求を実現するための具体的な振る舞い・条件を記述。",
+      "required": ["id", "specification"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "仕様ID（例: S01-01-01, spc11-01-01）。文書全体で一意。",
+          "examples": ["S01-01-01", "spc11-01-01"]
+        },
+        "specification": {
+          "type": "string",
+          "description": "仕様テキスト。具体的な振る舞い・条件・制約を記述。"
+        },
+        "reason": {
+          "type": "string",
+          "description": "仕様の理由（USDMメタモデルの仕様用「理由」に対応）。この仕様がなぜ必要かを記述。"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "仕様の説明（USDMメタモデルの仕様用「説明」に対応）。仕様の補足情報。"
+        },
+        "verified": {
+          "type": "array",
+          "items": { "type": "boolean" },
+          "minItems": 3,
+          "maxItems": 3,
+          "default": [false, false, false],
+          "description": "USDMの「仕様ラベル」。□の存在が仕様であることを示すラベルであり、同時にチェックボックスとしても機能する。「□□□」(全false)/「■□□」(1つ目のみtrue)等に対応。表示形式はビュー側の責務。"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "DivisionAxis": {
+      "type": "string",
+      "enum": ["時系列分割", "構成分割", "状態分割", "共通分割"],
+      "description": "分割軸。USDMメタモデルで要求間・仕様グループ間の関連を修飾する。"
+    },
+
+    "RequirementRelation": {
+      "type": "object",
+      "description": "要求間の関連（USDMメタモデルの「要求間」AssociationClassに対応）。2つの要求IDと分割軸で構成。",
+      "required": ["sourceId", "targetId", "divisionAxis"],
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "関連元の要求ID"
+        },
+        "targetId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "関連先の要求ID"
+        },
+        "divisionAxis": {
+          "$ref": "#/definitions/DivisionAxis"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "SpecificationGroupRelation": {
+      "type": "object",
+      "description": "仕様グループ間の関連（USDMメタモデルの「仕様グループ間」AssociationClassに対応）。2つの仕様グループ名と分割軸で構成。",
+      "required": ["sourceName", "targetName", "divisionAxis"],
+      "properties": {
+        "sourceName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "関連元の仕様グループ名"
+        },
+        "targetName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "関連先の仕様グループ名"
+        },
+        "divisionAxis": {
+          "$ref": "#/definitions/DivisionAxis"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

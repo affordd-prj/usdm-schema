@@ -1,0 +1,134 @@
+{
+  "$schema": "https://usdm-meta.dev/schema/v1/document.json",
+  "version": "1.0.0",
+  "title": "（文書タイトルを入力）",
+  "metadata": {
+    "author": "（著者名）",
+    "created": "2026-01-01T00:00:00Z",
+    "modified": "2026-01-01T00:00:00Z",
+    "description": "（文書の説明・概要）"
+  },
+  "categories": [
+    {
+      "id": "C01",
+      "name": "（カテゴリ名 例: 機能要求）",
+      "requirements": [
+
+        {
+          "id": "R01",
+          "requirement": "（上位要求: 目的語＋動詞で振る舞いを記述する）",
+          "reason": "（この要求がなぜ必要かを記述する）",
+          "explanation": "（補足情報・前提条件があれば記述する）",
+          "keywords": ["（キーワード）"],
+          "requirementGroups": [
+            {
+              "name": "＜（要求グループ名）＞",
+              "subRequirements": [
+                {
+                  "id": "R01-01",
+                  "requirement": "（下位要求: 上位要求の動詞を1つずつばらした単純な要求）",
+                  "reason": "（この下位要求の理由）",
+                  "explanation": "",
+                  "specificationGroups": [
+                    {
+                      "name": "＜（仕様グループ名 例: 画面表示）＞",
+                      "specifications": [
+                        {
+                          "id": "S01-01-01",
+                          "specification": "（仕様: 具体的な振る舞い・条件・制約を記述する）",
+                          "verified": [false, false, false]
+                        },
+                        {
+                          "id": "S01-01-02",
+                          "specification": "（仕様）",
+                          "verified": [false, false, false]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "＜（仕様グループ名 例: データ処理）＞",
+                      "specifications": [
+                        {
+                          "id": "S01-01-03",
+                          "specification": "（仕様）",
+                          "verified": [false, false, false]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "R01-02",
+                  "requirement": "（下位要求）",
+                  "reason": "（理由）",
+                  "explanation": "",
+                  "specificationGroups": [
+                    {
+                      "name": "＜（仕様グループ名）＞",
+                      "specifications": [
+                        {
+                          "id": "S01-02-01",
+                          "specification": "（仕様）",
+                          "verified": [false, false, false]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          "id": "R02",
+          "requirement": "（上位要求: 1階層パターン — 下位要求を使わずシンプルに仕様を紐づける場合）",
+          "reason": "（理由）",
+          "explanation": "",
+          "keywords": ["（キーワード）"],
+          "specificationGroups": [
+            {
+              "name": "＜（仕様グループ名）＞",
+              "specifications": [
+                {
+                  "id": "S02-01",
+                  "specification": "（仕様）",
+                  "verified": [false, false, false]
+                },
+                {
+                  "id": "S02-02",
+                  "specification": "（仕様）",
+                  "verified": [false, false, false]
+                }
+              ]
+            }
+          ]
+        }
+
+      ]
+    },
+    {
+      "id": "C02",
+      "name": "（カテゴリ名 例: 非機能要求）",
+      "requirements": [
+        {
+          "id": "R03",
+          "requirement": "（要求）",
+          "reason": "（理由）",
+          "specificationGroups": [
+            {
+              "name": "＜（仕様グループ名）＞",
+              "specifications": [
+                {
+                  "id": "S03-01",
+                  "specification": "（仕様）",
+                  "verified": [false, false, false]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
