@@ -70,25 +70,27 @@
 
     "Category": {
       "type": "object",
-      "description": "USDMの「グループ」に対応。要求を機能領域やドメインで分類するコンテナ。",
-      "required": ["id", "name", "requirements"],
+      "description": "USDMの「カテゴリ」。上位要求のグループそのものであり、「カテゴリ名」とも「要求グループ」とも呼べる同一概念。要求を機能領域やドメインで分類するコンテナ。IDは持たず、＜＞で囲んだ名前のみで表す。",
+      "required": ["name", "requirements"],
       "properties": {
         "id": {
           "type": "string",
           "minLength": 1,
           "pattern": "^[A-Za-z][A-Za-z0-9_-]*$",
-          "description": "カテゴリID（例: C01）。文書全体で一意。",
+          "description": "（任意・非推奨）トレーサビリティ用の内部ID。マークダウン等の表示には出力しない。",
           "examples": ["C01", "C02"]
         },
         "name": {
           "type": "string",
-          "minLength": 1,
-          "description": "カテゴリ名（例: エディタ本体）"
+          "minLength": 3,
+          "pattern": "^＜.+＞$",
+          "description": "カテゴリ名。全角山括弧＜＞で囲む。上位要求のグループに相当し、「カテゴリ名」「要求グループ」どちらの呼称でもよい。",
+          "examples": ["＜機能要求＞", "＜非機能要求＞", "＜走行制御＞"]
         },
         "requirements": {
           "type": "array",
           "items": { "$ref": "#/definitions/Requirement" },
-          "description": "このカテゴリに属する要求の一覧"
+          "description": "このカテゴリに属する上位要求の一覧"
         }
       },
       "additionalProperties": false
@@ -133,7 +135,8 @@
         "specificationGroups": {
           "type": "array",
           "items": { "$ref": "#/definitions/SpecificationGroup" },
-          "description": "要求に紐づく仕様グループ（USDMメタモデルの要求→仕様グループ [0..*] 集約に対応）。requirementGroupsとの同時保持可。"
+          "minItems": 1,
+          "description": "要求に紐づく仕様グループ（1階層パターン。存在する場合は1以上必須）。requirementGroupsとの同時保持可。"
         },
         "requirementGroups": {
           "type": "array",
@@ -159,7 +162,8 @@
         "subRequirements": {
           "type": "array",
           "items": { "$ref": "#/definitions/SubRequirement" },
-          "description": "このグループに属する下位要求の一覧"
+          "minItems": 1,
+          "description": "このグループに属する下位要求の一覧（1以上）。下位要求が1つのみの場合は「強制2層」として扱い、その下位要求の理由・説明を空白にする。"
         }
       },
       "additionalProperties": false
@@ -167,8 +171,8 @@
 
     "SubRequirement": {
       "type": "object",
-      "description": "USDMの「下位要求」。2階層パターンにおいて、上位要求を具体化・分割した要求。",
-      "required": ["id", "requirement", "reason"],
+      "description": "USDMの「下位要求」。2階層パターンにおいて、上位要求を具体化・分割した要求。強制2層（要求グループ内の下位要求が1つのみ）の場合は理由・説明を空白とするため、reason・explanationは必須としない。",
+      "required": ["id", "requirement"],
       "properties": {
         "id": {
           "type": "string",
@@ -203,7 +207,8 @@
         "specificationGroups": {
           "type": "array",
           "items": { "$ref": "#/definitions/SpecificationGroup" },
-          "description": "この下位要求に紐づく仕様グループ"
+          "minItems": 1,
+          "description": "この下位要求に紐づく仕様グループ（1以上必須）"
         }
       },
       "additionalProperties": false
@@ -224,7 +229,8 @@
         "specifications": {
           "type": "array",
           "items": { "$ref": "#/definitions/Specification" },
-          "description": "このグループに属する仕様の一覧"
+          "minItems": 1,
+          "description": "このグループに属する仕様の一覧（1以上必須）"
         }
       },
       "additionalProperties": false
