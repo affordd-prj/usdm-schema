@@ -13,7 +13,7 @@
     },
     "version": {
       "type": "string",
-      "const": "1.0.0",
+      "const": "1.1.0",
       "description": "Schema version (semver). Breaking changes bump major version."
     },
     "title": {

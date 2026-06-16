@@ -1,7 +1,7 @@
 # AFFORDD USDM Canonical JSON Schema
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue.svg)](#)
 [![Status](https://img.shields.io/badge/Status-Draft-orange.svg)](#)
 
 USDM（Universal Specification Describing Manner）の要求仕様データを、Excelに依存せずに**正規化されたJSON形式**で扱うための標準スキーマと、そのフォーマット定義・テンプレートを提供する。派生開発推進協議会（AFFORDD）による公開規格。
@@ -87,7 +87,7 @@ cp templates/usdm-template.md my-spec.md
 
 ## 改定方針
 
-本リポジトリは現行の **v1.0.0**（規定スキーマ + フォーマット定義 + テンプレート）を基準とする。
+本リポジトリは現行の **v1.1.0**（規定スキーマ + フォーマット定義 + テンプレート）を基準とする。
 
 スキーマに不備や改善点が見つかった場合に改定する。後方互換性を壊さない修正はマイナー／パッチ、構造を変える破壊的変更はメジャーバージョンを更新する（semver）。
 
