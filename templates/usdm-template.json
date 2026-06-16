@@ -1,6 +1,6 @@
 {
   "$schema": "https://usdm-meta.dev/schema/v1/document.json",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "（文書タイトルを入力）",
   "metadata": {
     "author": "（著者名）",
@@ -10,8 +10,7 @@
   },
   "categories": [
     {
-      "id": "C01",
-      "name": "（カテゴリ名 例: 機能要求）",
+      "name": "＜（カテゴリ名 例: 機能要求）＞",
       "requirements": [
 
         {
@@ -108,8 +107,7 @@
       ]
     },
     {
-      "id": "C02",
-      "name": "（カテゴリ名 例: 非機能要求）",
+      "name": "＜（カテゴリ名 例: 非機能要求）＞",
       "requirements": [
         {
           "id": "R03",

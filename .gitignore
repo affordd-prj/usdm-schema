@@ -1,0 +1,37 @@
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+~$*
+
+# Office temporary files
+*.tmp
+.~lock.*
+
+# Local-only working artifacts (just in case)
+node_modules/
+dist/
+output/
+.cache/
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Python (in case generation scripts are run locally)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs
+*.log
+
+# --- 非公開: プロジェクト内部資料（成果物のみ公開する方針） ---
+# 標準化過程のプロジェクト文書・報告書・構想書・記述例・スライド画像等は
+# USDMスキーマ作成プロジェクトの内部資料であり、公開リポジトリには含めない。
+# 公開対象は成果物（schema / formats / templates）と基本ファイル（README / LICENSE / CHANGELOG）のみ。
+docs/
