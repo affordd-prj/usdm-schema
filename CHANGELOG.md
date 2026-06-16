@@ -21,23 +21,18 @@
 ### Added — 初版リリース
 
 - **規定スキーマ**
-  - JSON Schema 定義（`schema/v1/document.schema.json`）
-- **標準化文書（11本）**
-  - プロジェクト憲章、計画書、WGメンバー募集、技術仕様書、レビュープロセス、ガバナンス、適合性ガイド、移行ガイド、広報計画、リリース成果物定義、文書索引
-- **付録**
-  - 用語集、USDM入門、JSON Schema入門
-- **テンプレート**
-  - レビューコメントテンプレート、適合宣言テンプレート、USDM文書テンプレート（Markdown/JSON）
+  - Canonical JSON Schema 定義（`schema/v1/document.schema.json`）
 - **フォーマット定義**
-  - USDM JSON形式、Markdown形式、表無し形式
-- **参考資料**
-  - プロジェクト構想書、プロジェクト報告書（Markdown/PDF/PPTX）、USDM記述例（メール検索1階層・2階層）
-- **コミュニティファイル**
-  - README.md、LICENSE（CC BY 4.0）、NOTICE、CONTRIBUTING.md、CODE_OF_CONDUCT.md、`.github/` テンプレート
+  - Canonical JSON 形式 定義書（`formats/USDM定義_JSON形式.md`）
+  - マークダウン形式 定義書（`formats/USDM定義_マークダウン形式.md`）
+- **テンプレート**
+  - USDM 文書テンプレート（`templates/usdm-template.json` / `templates/usdm-template.md`）
+- **リポジトリ基本ファイル**
+  - README.md、LICENSE（CC BY 4.0）
 
 ### Note
 
-- 本リリースは**標準化ドキュメントおよび規定スキーマ**のみを対象とする。
+- 本リポジトリは USDM の**規定スキーマ・フォーマット定義・テンプレート（成果物）**のみを公開対象とする。標準化の過程で作成したプロジェクトドキュメント（憲章・計画・ガバナンス等）は公開しない。
 - リファレンス実装（TypeScript製ツールキット：Importer/Exporter/Validator）は v1.1 以降、別リポジトリ `affordd-prj/usdm-meta` にて公開予定。
 
 [Unreleased]: https://github.com/affordd-prj/usdm-schema/compare/v1.1.0...HEAD
