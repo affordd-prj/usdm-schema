@@ -16,7 +16,7 @@
   - `Category.id` 必須を撤廃、`SubRequirement.reason` を任意化
 - `version` を `1.1.0` に更新（スキーマフォルダ `schema/v1/` はメジャーバージョン据え置き）
 
-## [1.0.0] - 2026-05-XX
+## [1.0.0] - 2026-05-27
 
 ### Added — 初版リリース
 
@@ -36,4 +36,5 @@
 - リファレンス実装（TypeScript製ツールキット：Importer/Exporter/Validator）は v1.1 以降、別リポジトリ `affordd-prj/usdm-meta` にて公開予定。
 
 [Unreleased]: https://github.com/affordd-prj/usdm-schema/compare/v1.1.0...HEAD
-[1.1.0]: https://github.com/affordd-prj/usdm-schema/releases/tag/v1.1.0
+[1.1.0]: https://github.com/affordd-prj/usdm-schema/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/affordd-prj/usdm-schema/releases/tag/v1.0.0
