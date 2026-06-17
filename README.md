@@ -104,6 +104,7 @@ cp templates/usdm-template.md my-spec.md
 ## 関連リンク
 
 - 派生開発推進協議会 (AFFORDD): https://affordd.jp/
+- USDM Canonical JSON Schema（AFFORDDライブラリ紹介ページ）: https://affordd.jp/libraries/usdm-schema/
 - USDM技法の原典: 清水吉男『要求を仕様化する技術・表現する技術』
 
 ---
